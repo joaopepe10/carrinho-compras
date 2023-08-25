@@ -27,6 +27,7 @@ public class Item {
      * @return Produto
      */
     public Produto getProduto() {
+		return this.produto;
     }
 
     /**
@@ -35,6 +36,7 @@ public class Item {
      * @return BigDecimal
      */
     public BigDecimal getValorUnitario() {
+		return this.getValorUnitario();
     }
 
     /**
@@ -43,6 +45,7 @@ public class Item {
      * @return int
      */
     public int getQuantidade() {
+		return this.quantidade;
     }
 
     /**
@@ -51,6 +54,7 @@ public class Item {
      * @return BigDecimal
      */
     public BigDecimal getValorTotal() {
-
+		BigDecimal quantidade = new BigDecimal(getQuantidade());
+		return getValorUnitario().multiply(quantidade);
     }
 }
