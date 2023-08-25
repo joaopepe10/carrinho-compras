@@ -4,7 +4,8 @@ package br.com.improving.carrinho;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Classe que representa o carrinho de compras de um cliente.
@@ -27,9 +28,26 @@ public class CarrinhoCompras {
      */
     private Collection<Item> items = new ArrayList<>();
 	public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) throws Exception {
-		Item item = new Item(produto, valorUnitario, quantidade);
-		items.add(item);
+		if (!isProduto(produto.getCodigo())){
+			Item item = new Item(produto, valorUnitario, quantidade);
+			items.add(item);
+		}else {
+			Item itemAntigo = new Item(produto, valorUnitario, quantidade);
+			atualizaItem(itemAntigo);
+		}
+
     }
+	private void atualizaItem(Item item) throws Exception {
+		Long codigo = item.getProduto().getCodigo();
+		Predicate<Item> temItem = i -> i.getProduto().getCodigo().equals(codigo);
+		Consumer<Item> atualiza = i -> {
+			i.setValorUnitario(item.getValorUnitario());
+			i.setQuantidade(i.getQuantidade() + item.getQuantidade());
+		};
+		items.stream()
+				.filter(temItem)
+				.forEach(atualiza);
+	}
 
 	public Item buscaPorId(Long id) throws Exception {
 		if (getItens().isEmpty()){
@@ -94,7 +112,7 @@ public class CarrinhoCompras {
 	@Override
 	public String toString() {
 		return "CarrinhoCompras{" +
-				"items=" + items +
+				"\nitems=" + items +
 				'}';
 	}
 }
