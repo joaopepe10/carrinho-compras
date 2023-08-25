@@ -13,6 +13,6 @@ public class Main {
 		carrinhoCompras.adicionarItem(p2, new BigDecimal(3700), 10);
 		carrinhoCompras.adicionarItem(p3, new BigDecimal(4500), 10);
 
-		System.out.println(carrinhoCompras.buscaPorId(2L));
+		System.out.println(carrinhoCompras.isProduto(5L));
 	}
 }

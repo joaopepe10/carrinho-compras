@@ -43,6 +43,11 @@ public class CarrinhoCompras {
 		return null;
 	}
 
+	public boolean isProduto(Long id){
+		return items.stream()
+				.anyMatch(item -> item.getProduto().getCodigo().equals(id));
+	}
+
     /**
      * Permite a remoção do item que representa este produto do carrinho de compras.
      *
