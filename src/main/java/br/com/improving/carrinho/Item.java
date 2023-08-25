@@ -18,8 +18,16 @@ public class Item {
      * @param valorUnitario
      * @param quantidade
      */
-    public Item(Produto produto, BigDecimal valorUnitario, int quantidade) {
-    }
+	public Item(Produto produto, BigDecimal valorUnitario, int quantidade) {
+		this.produto = produto;
+		this.valorUnitario = valorUnitario;
+		this.quantidade = quantidade;
+	}
+	public Item(Item item){
+		this.produto = item.produto;
+		this.valorUnitario = item.valorUnitario;
+		this.quantidade = item.getQuantidade();
+	}
 
     /**
      * Retorna o produto.

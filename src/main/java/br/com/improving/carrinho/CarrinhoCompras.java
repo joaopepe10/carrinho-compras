@@ -1,19 +1,17 @@
-/*
 package br.com.improving.carrinho;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Stream;
 
-*/
 /**
  * Classe que representa o carrinho de compras de um cliente.
- *//*
-
+ */
 public class CarrinhoCompras {
 
-    */
-/**
+    /**
      * Permite a adição de um novo item no carrinho de compras.
      *
      * Caso o item já exista no carrinho para este mesmo produto, as seguintes regras deverão ser seguidas:
@@ -26,27 +24,37 @@ public class CarrinhoCompras {
      * @param produto
      * @param valorUnitario
      * @param quantidade
-     *//*
-
-    public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) {
-
+     */
+    private Collection<Item> items = new ArrayList<>();
+	public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) throws Exception {
+		Item item = new Item(produto, valorUnitario, quantidade);
+		items.add(item);
     }
 
-    */
-/**
+	public Item buscaPorId(Long id) throws Exception {
+		if (getItens().isEmpty()){
+			throw new Exception("Nao e possivel buscar por item com lista vazia!");
+		}
+		for (Item i : items){
+			if (i.getProduto().getCodigo().equals(id)){
+				return new Item(i);
+			}
+		}
+		return null;
+	}
+
+    /**
      * Permite a remoção do item que representa este produto do carrinho de compras.
      *
      * @param produto
      * @return Retorna um boolean, tendo o valor true caso o produto exista no carrinho de compras e false
      * caso o produto não exista no carrinho.
-     *//*
-
+     */
     public boolean removerItem(Produto produto) {
-
+		return true;
     }
 
-    */
-/**
+    /**
      * Permite a remoção do item de acordo com a posição.
      * Essa posição deve ser determinada pela ordem de inclusão do produto na 
      * coleção, em que zero representa o primeiro item.
@@ -54,32 +62,34 @@ public class CarrinhoCompras {
      * @param posicaoItem
      * @return Retorna um boolean, tendo o valor true caso o produto exista no carrinho de compras e false
      * caso o produto não exista no carrinho.
-     *//*
-
+     */
     public boolean removerItem(int posicaoItem) {
-
+		return true;
     }
 
-    */
-/**
+    /**
      * Retorna o valor total do carrinho de compras, que deve ser a soma dos valores totais
      * de todos os itens que compõem o carrinho.
      *
      * @return BigDecimal
-     *//*
-
+     */
     public BigDecimal getValorTotal() {
-
+		return new BigDecimal(0);
     }
 
-    */
-/**
+    /**
      * Retorna a lista de itens do carrinho de compras.
      *
      * @return itens
-     *//*
-
+     */
     public Collection<Item> getItens() {
-
+		return this.items;
     }
-}*/
+
+	@Override
+	public String toString() {
+		return "CarrinhoCompras{" +
+				"items=" + items +
+				'}';
+	}
+}
