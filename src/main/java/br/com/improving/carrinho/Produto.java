@@ -11,6 +11,7 @@ public class Produto {
 
     private Long codigo;
     private String descricao;
+	public static long contador = 1;
 
     /**
      * Construtor da classe Produto.
@@ -19,7 +20,15 @@ public class Produto {
      * @param descricao
      */
     public Produto(Long codigo, String descricao) {
+		this.codigo = contador;
+		this.descricao = descricao;
+		contador++;
     }
+	public Produto(String descricao){
+		this.codigo = contador;
+		this.descricao = descricao;
+		contador++;
+	}
 
     /**
      * Retorna o código da produto.
