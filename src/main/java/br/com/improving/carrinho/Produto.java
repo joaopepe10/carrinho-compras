@@ -1,5 +1,7 @@
 package br.com.improving.carrinho;
 
+import java.util.Objects;
+
 /**
  * Classe que representa um produto que pode ser adicionado
  * como item ao carrinho de compras.
@@ -47,4 +49,29 @@ public class Produto {
     public String getDescricao() {
 		return this.descricao;
     }
+
+	@Override
+	public String toString() {
+		return "Produto{" +
+				"codigo=" + codigo +
+				", descricao='" + descricao + '\'' +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Produto)) {
+			return false;
+		}
+		final Produto produto = (Produto) o;
+		return Objects.equals(getCodigo(), produto.getCodigo()) && Objects.equals(getDescricao(), produto.getDescricao());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getCodigo());
+	}
 }

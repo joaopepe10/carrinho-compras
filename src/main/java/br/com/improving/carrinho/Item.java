@@ -57,4 +57,13 @@ public class Item {
 		BigDecimal quantidade = new BigDecimal(getQuantidade());
 		return getValorUnitario().multiply(quantidade);
     }
+
+	@Override
+	public String toString() {
+		return "Item{" +
+				"produto=" + produto +
+				", valorUnitario=" + valorUnitario +
+				", quantidade=" + quantidade +
+				'}';
+	}
 }
