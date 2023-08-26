@@ -49,13 +49,8 @@ public class Produto {
 		return this.descricao;
     }
 
-	@Override
-	public String toString() {
-		return "\n\tProduto{" +
-				"codigo=" + codigo +
-				", descricao='" + descricao + '\'' +
-				'}';
-	}
+
+
 
 	@Override
 	public boolean equals(Object o) {
@@ -72,5 +67,12 @@ public class Produto {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getCodigo());
+	}
+	@Override
+	public String toString() {
+		return "\n\tProduto{" +
+				"codigo=" + codigo +
+				", descricao='" + descricao + '\'' +
+				'}';
 	}
 }

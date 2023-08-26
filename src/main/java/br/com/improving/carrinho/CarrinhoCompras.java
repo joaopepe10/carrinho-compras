@@ -8,7 +8,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import br.com.improving.carrinho.util.FormataReal;
+import br.com.improving.util.FormataReal;
 
 /**
  * Classe que representa o carrinho de compras de um cliente.
@@ -50,18 +50,6 @@ public class CarrinhoCompras {
 		items.stream()
 				.filter(temItem)
 				.forEach(atualiza);
-	}
-
-	public Item buscaPorId(Long id) throws Exception {
-		if (getItens().isEmpty()){
-			throw new Exception("Nao e possivel buscar por item com lista vazia!");
-		}
-		for (Item i : items){
-			if (i.getProduto().getCodigo().equals(id)){
-				return new Item(i);
-			}
-		}
-		return null;
 	}
 
 	public boolean isProduto(Long id){

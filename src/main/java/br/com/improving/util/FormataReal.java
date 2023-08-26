@@ -1,4 +1,4 @@
-package br.com.improving.carrinho.util;
+package br.com.improving.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

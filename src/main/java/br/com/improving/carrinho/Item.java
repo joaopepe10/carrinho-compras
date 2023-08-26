@@ -2,6 +2,8 @@ package br.com.improving.carrinho;
 
 import java.math.BigDecimal;
 
+import br.com.improving.util.FormataReal;
+
 /**
  * Classe que representa um item no carrinho de compras.
  */
@@ -82,7 +84,7 @@ public class Item {
 	public String toString() {
 		return "\n\tItem{" +
 				"produto=" + produto +
-				", valorUnitario=" + valorUnitario +
+				", valorUnitario=" + FormataReal.bigDecimalToString(valorUnitario) +
 				", quantidade=" + quantidade +
 				'}';
 	}
