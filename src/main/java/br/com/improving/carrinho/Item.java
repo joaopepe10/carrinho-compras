@@ -12,6 +12,8 @@ public class Item {
     private Produto produto;
     private BigDecimal valorUnitario;
     private int quantidade;
+	public static int posicaoEstatica = 0;
+	private int posicao;
 
     /**
      * Construtor da classe Item.
@@ -20,19 +22,31 @@ public class Item {
      * @param valorUnitario
      * @param quantidade
      */
+
+	/*
+	* QUANDO CRIAR UM NOVO CONSTRUTOR, VERIFICAR SE COLOCOU O INCREMENTO DA POSICAO.
+	*
+	*
+	* */
 	public Item(Produto produto, BigDecimal valorUnitario, int quantidade) {
 		this.produto = produto;
 		this.valorUnitario = valorUnitario;
 		this.quantidade = quantidade;
+		posicao = posicaoEstatica;
+		posicaoEstatica++;
 	}
 	public Item(BigDecimal valorUnitario, int quantidade){
 		this.valorUnitario = valorUnitario;
 		this.quantidade = quantidade;
+		posicao = posicaoEstatica;
+		posicaoEstatica++;
 	}
 	public Item(Item item){
 		this.produto = item.produto;
 		this.valorUnitario = item.valorUnitario;
 		this.quantidade = item.getQuantidade();
+		posicao = posicaoEstatica;
+		posicaoEstatica++;
 	}
 
     /**
@@ -72,6 +86,14 @@ public class Item {
 		return getValorUnitario().multiply(quantidade);
     }
 
+	public int getPosicao() {
+		return posicao;
+	}
+
+	public void setPosicao() {
+		this.posicao--;
+	}
+
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
@@ -83,7 +105,7 @@ public class Item {
 	@Override
 	public String toString() {
 		return "\n\tItem{" +
-				"produto=" + produto +
+				"Posicao=["+ posicao +"]"+ produto +
 				", valorUnitario=" + FormataReal.bigDecimalToString(valorUnitario) +
 				", quantidade=" + quantidade +
 				'}';

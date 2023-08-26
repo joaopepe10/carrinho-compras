@@ -30,17 +30,20 @@ public class CarrinhoCompras {
      * @param quantidade
      */
     private Collection<Item> itens = new ArrayList<>();
+	static int posicao = 0;
 	public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) throws Exception {
 		if (!isProduto(produto.getCodigo())){
 			Item item = new Item(produto, valorUnitario, quantidade);
 			itens.add(item);
+			posicao++;
 		}else {
 			Item itemAntigo = new Item(produto, valorUnitario, quantidade);
 			atualizaItem(itemAntigo);
+			posicao++;
 		}
 
     }
-	private void atualizaItem(Item item) throws Exception {
+	private void atualizaItem(Item item){
 		Long codigo = item.getProduto().getCodigo();
 		Predicate<Item> temItem = i -> i.getProduto().getCodigo().equals(codigo);
 		Consumer<Item> atualiza = i -> {
@@ -67,11 +70,18 @@ public class CarrinhoCompras {
     public boolean removerItem(Produto produto) throws Exception {
 		Long codigo = produto.getCodigo();
 		if (isProduto(codigo)){
+			Consumer<Item> atualizaPosicao = Item::setPosicao;
+
 			Predicate<Item> temItem = i -> i.getProduto().getCodigo().equals(codigo);
 			Item itemRemovido = itens.stream()
 					.filter(temItem)
 					.findFirst()
 					.orElseThrow(() -> new Exception("Produto Invalido!"));
+
+			itens.stream()
+					.skip(itemRemovido.getPosicao())
+							.forEach(atualizaPosicao);
+
 			itens.remove(itemRemovido);
 			return true;
 		}
@@ -127,7 +137,7 @@ public class CarrinhoCompras {
 	@Override
 	public String toString() {
 		return "CarrinhoCompras{" +
-				"\nitems=" + itens +
+				"\n" + itens +
 				'}';
 	}
 }
