@@ -84,8 +84,15 @@ public class CarrinhoCompras {
      * @return Retorna um boolean, tendo o valor true caso o produto exista no carrinho de compras e false
      * caso o produto não exista no carrinho.
      */
-    public boolean removerItem(int posicaoItem) {
-
+    public boolean removerItem(int posicaoItem) throws Exception {
+		Item itemRemovido = itens.stream()
+				.filter(i -> i.getPosicao() == posicaoItem)
+				.findFirst()
+				.orElseThrow(() -> new Exception("Posicao do item invalida!"));
+		itens.stream()
+				.skip(itemRemovido.getPosicao())
+				.forEach(Item::setPosicao);
+		itens.remove(itemRemovido);
 		return true;
     }
 
@@ -93,7 +100,7 @@ public class CarrinhoCompras {
 		Item itemRemovido = itens.stream()
 				.filter(i -> i.getProduto().getCodigo().equals(id))
 				.findFirst()
-				.orElseThrow(() -> new Exception("Codigo invalido!"));
+				.orElseThrow(() -> new Exception("Codigo do item invalido!"));
 		itens.stream()
 				.skip(itemRemovido.getPosicao())
 				.forEach(Item::setPosicao);

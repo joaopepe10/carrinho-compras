@@ -87,7 +87,7 @@ public class Item {
     }
 
 	public int getPosicao() {
-		return posicao;
+		return this.posicao;
 	}
 
 	public void setPosicao() {

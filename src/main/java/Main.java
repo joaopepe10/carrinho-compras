@@ -26,7 +26,7 @@ public class Main {
 
 		System.out.println(carrinhoCompras);
 
-		carrinhoCompras.removerItem(p3);
+		carrinhoCompras.removerItem(1);
 
 
 		System.out.println("\n\n" + carrinhoCompras);
