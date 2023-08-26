@@ -70,20 +70,7 @@ public class CarrinhoCompras {
     public boolean removerItem(Produto produto) throws Exception {
 		Long codigo = produto.getCodigo();
 		if (isProduto(codigo)){
-			Consumer<Item> atualizaPosicao = Item::setPosicao;
-
-			Predicate<Item> temItem = i -> i.getProduto().getCodigo().equals(codigo);
-			Item itemRemovido = itens.stream()
-					.filter(temItem)
-					.findFirst()
-					.orElseThrow(() -> new Exception("Produto Invalido!"));
-
-			itens.stream()
-					.skip(itemRemovido.getPosicao())
-							.forEach(atualizaPosicao);
-
-			itens.remove(itemRemovido);
-			return true;
+			return removerItem(codigo);
 		}
 		return false;
     }
@@ -98,8 +85,21 @@ public class CarrinhoCompras {
      * caso o produto não exista no carrinho.
      */
     public boolean removerItem(int posicaoItem) {
+
 		return true;
     }
+
+	public boolean removerItem(long id) throws Exception {
+		Item itemRemovido = itens.stream()
+				.filter(i -> i.getProduto().getCodigo().equals(id))
+				.findFirst()
+				.orElseThrow(() -> new Exception("Codigo invalido!"));
+		itens.stream()
+				.skip(itemRemovido.getPosicao())
+				.forEach(Item::setPosicao);
+		itens.remove(itemRemovido);
+		return true;
+	}
 
     /**
      * Retorna o valor total do carrinho de compras, que deve ser a soma dos valores totais
