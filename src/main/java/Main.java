@@ -1,6 +1,7 @@
-package br.com.improving.carrinho;
-
 import java.math.BigDecimal;
+
+import br.com.improving.carrinho.CarrinhoCompras;
+import br.com.improving.carrinho.Produto;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -28,6 +29,12 @@ public class Main {
 		carrinhoCompras.adicionarItem(p3, new BigDecimal(4500), 1);
 		carrinhoCompras.adicionarItem(p6, new BigDecimal(1800), 1);
 		carrinhoCompras.adicionarItem(p7, new BigDecimal(2000), 1);
+		System.out.println(carrinhoCompras);
+		System.out.println(carrinhoCompras.getValorTotalToString());
+		System.out.println(carrinhoCompras.removerItem(p3));
+		System.out.println(carrinhoCompras.removerItem(p1));
+		System.out.println(carrinhoCompras.removerItem(p2));
+		System.out.println(carrinhoCompras.removerItem(p4));
 		System.out.println(carrinhoCompras);
 		System.out.println(carrinhoCompras.getValorTotalToString());
 	}

@@ -29,11 +29,11 @@ public class CarrinhoCompras {
      * @param valorUnitario
      * @param quantidade
      */
-    private Collection<Item> items = new ArrayList<>();
+    private Collection<Item> itens = new ArrayList<>();
 	public void adicionarItem(Produto produto, BigDecimal valorUnitario, int quantidade) throws Exception {
 		if (!isProduto(produto.getCodigo())){
 			Item item = new Item(produto, valorUnitario, quantidade);
-			items.add(item);
+			itens.add(item);
 		}else {
 			Item itemAntigo = new Item(produto, valorUnitario, quantidade);
 			atualizaItem(itemAntigo);
@@ -47,13 +47,13 @@ public class CarrinhoCompras {
 			i.setValorUnitario(item.getValorUnitario());
 			i.setQuantidade(i.getQuantidade() + item.getQuantidade());
 		};
-		items.stream()
+		itens.stream()
 				.filter(temItem)
 				.forEach(atualiza);
 	}
 
 	public boolean isProduto(Long id){
-		return items.stream()
+		return itens.stream()
 				.anyMatch(item -> item.getProduto().getCodigo().equals(id));
 	}
 
@@ -64,9 +64,18 @@ public class CarrinhoCompras {
      * @return Retorna um boolean, tendo o valor true caso o produto exista no carrinho de compras e false
      * caso o produto não exista no carrinho.
      */
-    public boolean removerItem(Produto produto) {
-
-		return true;
+    public boolean removerItem(Produto produto) throws Exception {
+		Long codigo = produto.getCodigo();
+		if (isProduto(codigo)){
+			Predicate<Item> temItem = i -> i.getProduto().getCodigo().equals(codigo);
+			Item itemRemovido = itens.stream()
+					.filter(temItem)
+					.findFirst()
+					.orElseThrow(() -> new Exception("Produto Invalido!"));
+			itens.remove(itemRemovido);
+			return true;
+		}
+		return false;
     }
 
     /**
@@ -90,7 +99,7 @@ public class CarrinhoCompras {
      */
     public BigDecimal getValorTotal() throws Exception {
 		BinaryOperator<BigDecimal> somaTotal = BigDecimal::add;
-		return items.stream()
+		return itens.stream()
 				.map(Item::getValorTotal)
 				.reduce(somaTotal)
 				.orElseThrow(() -> new Exception("Adcione ao menos um item ao carrinho para ver o total!"));
@@ -98,7 +107,7 @@ public class CarrinhoCompras {
 
 	public String getValorTotalToString() throws Exception {
 		BinaryOperator<BigDecimal> somaTotal = BigDecimal::add;
-		BigDecimal total = items.stream()
+		BigDecimal total = itens.stream()
 				.map(Item::getValorTotal)
 				.reduce(somaTotal)
 				.orElseThrow(() -> new Exception("Adcione ao menos um item ao carrinho para ver o total!"));
@@ -112,13 +121,13 @@ public class CarrinhoCompras {
      * @return itens
      */
     public Collection<Item> getItens() {
-		return this.items;
+		return this.itens;
     }
 
 	@Override
 	public String toString() {
 		return "CarrinhoCompras{" +
-				"\nitems=" + items +
+				"\nitems=" + itens +
 				'}';
 	}
 }
