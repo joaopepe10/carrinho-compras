@@ -106,8 +106,16 @@ public class CarrinhoCompras {
 				.map(Item::getValorTotal)
 				.reduce(somaTotal)
 				.orElseThrow(() -> new Exception("Adcione ao menos um item ao carrinho para ver o total!"));
-
     }
+
+	public String getValorTotalToString() throws Exception {
+		BinaryOperator<BigDecimal> somaTotal = BigDecimal::add;
+		BigDecimal total = items.stream()
+				.map(Item::getValorTotal)
+				.reduce(somaTotal)
+				.orElseThrow(() -> new Exception("Adcione ao menos um item ao carrinho para ver o total!"));
+		return FormataReal.bigDecimalToString(total);
+	}
 
 
     /**
