@@ -100,15 +100,15 @@ public class CarrinhoCompras {
      *
      * @return BigDecimal
      */
-    public String getValorTotal() {
+    public BigDecimal getValorTotal() throws Exception {
 		BinaryOperator<BigDecimal> somaTotal = BigDecimal::add;
-		BigDecimal total = items.stream()
-				.map(i -> i.getValorTotal())
-				.reduce(somaTotal).get();
-
-		return FormataReal.bigDecimalToString(total);
+		return items.stream()
+				.map(Item::getValorTotal)
+				.reduce(somaTotal)
+				.orElseThrow(() -> new Exception("Adcione ao menos um item ao carrinho para ver o total!"));
 
     }
+
 
     /**
      * Retorna a lista de itens do carrinho de compras.
