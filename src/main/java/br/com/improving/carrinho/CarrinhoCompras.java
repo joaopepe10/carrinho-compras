@@ -4,8 +4,11 @@ package br.com.improving.carrinho;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import br.com.improving.carrinho.util.FormataReal;
 
 /**
  * Classe que representa o carrinho de compras de um cliente.
@@ -74,6 +77,7 @@ public class CarrinhoCompras {
      * caso o produto não exista no carrinho.
      */
     public boolean removerItem(Produto produto) {
+
 		return true;
     }
 
@@ -96,8 +100,14 @@ public class CarrinhoCompras {
      *
      * @return BigDecimal
      */
-    public BigDecimal getValorTotal() {
-		return new BigDecimal(0);
+    public String getValorTotal() {
+		BinaryOperator<BigDecimal> somaTotal = BigDecimal::add;
+		BigDecimal total = items.stream()
+				.map(i -> i.getValorTotal())
+				.reduce(somaTotal).get();
+
+		return FormataReal.bigDecimalToString(total);
+
     }
 
     /**
