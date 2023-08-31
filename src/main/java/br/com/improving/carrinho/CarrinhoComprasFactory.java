@@ -4,6 +4,7 @@ package br.com.improving.carrinho;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import br.com.improving.usuario.Cliente;
@@ -16,7 +17,8 @@ import br.com.improving.usuario.Cliente;
 public class CarrinhoComprasFactory {
 
 	private List<Cliente> clientes = new ArrayList<>();
-	private CarrinhoComprasFactory() {
+	private List<CarrinhoCompras> carrinhos = new ArrayList<>();
+	public CarrinhoComprasFactory() {
 	}
 	public CarrinhoComprasFactory(Cliente cliente){
 		this.clientes.add(cliente);
@@ -35,28 +37,32 @@ public class CarrinhoComprasFactory {
      * @return CarrinhoCompras
      */
 
-    public CarrinhoCompras criar(String identificacaoCliente) {
+    public CarrinhoCompras criar(String identificacaoCliente) throws Exception {
 		isCliente(identificacaoCliente)
 				.orElseThrow(()-> new RuntimeException("Id de cliente invalido!"));
-		return buscaCarrinho(identificacaoCliente)
-				.orElseGet(CarrinhoCompras::new);
+		return buscarCarrinho(identificacaoCliente);
     }
 
-	private Optional<CarrinhoCompras> buscaCarrinho(String identificacaoCliente){
-		return getClientes().stream()
-				.filter(cliente -> cliente.getId().equals(identificacaoCliente))
-				.filter(cliente -> cliente.getCarrinho() != null)
-				.map(Cliente::getCarrinho)
+	private CarrinhoCompras buscarCarrinho(String id){
+		Optional<CarrinhoCompras> carrinhoCompras = clientes.stream()
+				.filter(cliente -> cliente.getId().equals(id))
+				.map(cliente -> {
+					if (cliente.getCarrinho() == null){
+						return new CarrinhoCompras();
+					}else {
+						return cliente.getCarrinho();
+					}
+				})
 				.findFirst();
-	}
-
-	private Optional<Boolean> isCliente(String identificacaoCliente){
-		return Optional.of(getClientes().stream()
-				.anyMatch(i -> i.getId().equals(identificacaoCliente)));
+		return carrinhoCompras.orElseGet(CarrinhoCompras::new);
 	}
 
 
-
+	private Optional<Boolean> isCliente(String identificacaoCliente) throws Exception {
+		return Optional.ofNullable(Optional.of(getClientes().stream()
+				.anyMatch(i -> i.getId().equals(identificacaoCliente)))
+				.orElseThrow(() -> new Exception("Id de cliente invalido!")));
+	}
 
 	/**
      * Retorna o valor do ticket médio no momento da chamada ao método.
@@ -90,8 +96,8 @@ public class CarrinhoComprasFactory {
 		return clientes;
 	}
 
-	private void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
+	public void setClientes(Cliente cliente) {
+		this.clientes.add(cliente);
 	}
 }
 

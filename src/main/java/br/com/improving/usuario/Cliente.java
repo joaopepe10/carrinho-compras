@@ -59,6 +59,7 @@ public class Cliente {
 		return Objects.equals(getId(), usuario.getId()) && Objects.equals(getNome(), usuario.getNome()) && Objects.equals(getSobrenome(), usuario.getSobrenome()) && Objects.equals(getCarrinho(), usuario.getCarrinho());
 	}
 
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(getId());
