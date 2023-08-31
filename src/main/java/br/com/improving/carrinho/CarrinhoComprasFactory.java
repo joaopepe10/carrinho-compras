@@ -18,6 +18,12 @@ public class CarrinhoComprasFactory {
 	private List<Cliente> clientes = new ArrayList<>();
 	private CarrinhoComprasFactory() {
 	}
+	public CarrinhoComprasFactory(Cliente cliente){
+		this.clientes.add(cliente);
+	}
+	public CarrinhoComprasFactory(List<Cliente> clientes){
+		this.clientes.addAll(clientes);
+	}
 
 
 	/**
@@ -32,9 +38,17 @@ public class CarrinhoComprasFactory {
     public CarrinhoCompras criar(String identificacaoCliente) {
 		isCliente(identificacaoCliente)
 				.orElseThrow(()-> new RuntimeException("Id de cliente invalido!"));
-
-		return new CarrinhoCompras();
+		return buscaCarrinho(identificacaoCliente)
+				.orElseGet(CarrinhoCompras::new);
     }
+
+	private Optional<CarrinhoCompras> buscaCarrinho(String identificacaoCliente){
+		return getClientes().stream()
+				.filter(cliente -> cliente.getId().equals(identificacaoCliente))
+				.filter(cliente -> cliente.getCarrinho() != null)
+				.map(Cliente::getCarrinho)
+				.findFirst();
+	}
 
 	private Optional<Boolean> isCliente(String identificacaoCliente){
 		return Optional.of(getClientes().stream()
