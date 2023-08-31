@@ -15,6 +15,14 @@ public class Cliente {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 	}
+
+	public Cliente(String id, String nome, String sobrenome, CarrinhoCompras compras){
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.carrinho = compras;
+	}
+
 	public String getId() {
 		return id;
 	}

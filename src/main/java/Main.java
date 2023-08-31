@@ -1,6 +1,4 @@
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 import br.com.improving.carrinho.CarrinhoCompras;
 import br.com.improving.carrinho.CarrinhoComprasFactory;
@@ -14,8 +12,13 @@ public class Main {
 		Produto p2 = new Produto("Iphone 13");
 		Produto p3 = new Produto("Iphone 14");
 
-		Cliente c1 = new Cliente("1", "Joao", "Pires");
+		CarrinhoCompras compras1 = new CarrinhoCompras();
+		compras1.adicionarItem(p1, new BigDecimal(2900), 1);
+		Cliente c1 = new Cliente("1", "Joao", "Pires", compras1);
+		cf.setCliente(c1);
 		Cliente c2 = new Cliente("2", "Vitor", "Santos");
+
+		System.out.println(cf.criar("2"));
 
 
 

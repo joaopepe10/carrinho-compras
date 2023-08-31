@@ -4,7 +4,6 @@ package br.com.improving.carrinho;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import br.com.improving.usuario.Cliente;
@@ -38,30 +37,36 @@ public class CarrinhoComprasFactory {
      */
 
     public CarrinhoCompras criar(String identificacaoCliente) throws Exception {
-		isCliente(identificacaoCliente)
-				.orElseThrow(()-> new RuntimeException("Id de cliente invalido!"));
+		if (isCliente(identificacaoCliente)){
+			throw new Exception("Id de cliente invalido!");
+		}
 		return buscarCarrinho(identificacaoCliente);
     }
 
-	private CarrinhoCompras buscarCarrinho(String id){
-		Optional<CarrinhoCompras> carrinhoCompras = clientes.stream()
-				.filter(cliente -> cliente.getId().equals(id))
-				.map(cliente -> {
-					if (cliente.getCarrinho() == null){
-						return new CarrinhoCompras();
-					}else {
-						return cliente.getCarrinho();
-					}
-				})
-				.findFirst();
-		return carrinhoCompras.orElseGet(CarrinhoCompras::new);
+	private CarrinhoCompras buscarCarrinho(String id) throws Exception {
+			Optional<CarrinhoCompras> carrinhoCompras = clientes.stream()
+					.filter(cliente -> cliente.getId().equals(id))
+					.map(cliente -> {
+						if (cliente.getCarrinho() == null){
+							CarrinhoCompras carrinho = new CarrinhoCompras();
+							carrinhos.add(carrinho);
+							return  carrinho;
+						}else {
+							return cliente.getCarrinho();
+						}
+					})
+					.findFirst();
+			return carrinhoCompras.orElseGet(CarrinhoCompras::new);
 	}
 
 
-	private Optional<Boolean> isCliente(String identificacaoCliente) throws Exception {
-		return Optional.ofNullable(Optional.of(getClientes().stream()
-				.anyMatch(i -> i.getId().equals(identificacaoCliente)))
-				.orElseThrow(() -> new Exception("Id de cliente invalido!")));
+	private boolean isCliente(String identificacaoCliente) throws Exception {
+		boolean existeCliente = getClientes().stream()
+				.anyMatch(cliente -> cliente.getId().equals(identificacaoCliente));
+		if (!existeCliente){
+			throw new Exception("Identificacao de cliente invalida!");
+		}
+		return existeCliente;
 	}
 
 	/**
@@ -96,8 +101,9 @@ public class CarrinhoComprasFactory {
 		return clientes;
 	}
 
-	public void setClientes(Cliente cliente) {
+	public void setCliente(Cliente cliente) {
 		this.clientes.add(cliente);
 	}
+	public void setClientes(List<Cliente> clientes){this.clientes.addAll(clientes);}
 }
 
