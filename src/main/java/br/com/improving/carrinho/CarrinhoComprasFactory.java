@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import br.com.improving.usuario.Cliente;
@@ -38,24 +39,31 @@ public class CarrinhoComprasFactory {
      */
 
     public CarrinhoCompras criar(String identificacaoCliente) throws Exception {
-		if (isCliente(identificacaoCliente)){
+		if (!isCliente(identificacaoCliente)){
 			throw new Exception("Id de cliente invalido!");
 		}
 		return buscarCarrinho(identificacaoCliente);
     }
+	private Function<Cliente, CarrinhoCompras> retornaCarrinho(String identificacaoCliente){
+		Function<Cliente, CarrinhoCompras> retornaCarrinho;
+		retornaCarrinho = cliente -> {
+			if (cliente.getCarrinho() == null){
+				CarrinhoCompras carrinho = new CarrinhoCompras();
+				carrinhos.add(carrinho);
+				return  carrinho;
+			}else {
+				carrinhos.add(cliente.getCarrinho());
+				return cliente.getCarrinho();
+			}
+		};
+		return retornaCarrinho;
+		}
+
 
 	private CarrinhoCompras buscarCarrinho(String identificacaoCliente) throws Exception {
 			Optional<CarrinhoCompras> carrinhoCompras = clientes.stream()
 					.filter(temCliente(identificacaoCliente))
-					.map(cliente -> {
-						if (cliente.getCarrinho() == null){
-							CarrinhoCompras carrinho = new CarrinhoCompras();
-							carrinhos.add(carrinho);
-							return  carrinho;
-						}else {
-							return cliente.getCarrinho();
-						}
-					})
+					.map(retornaCarrinho(identificacaoCliente))
 					.findFirst();
 			return carrinhoCompras.orElseGet(CarrinhoCompras::new);
 	}
@@ -86,7 +94,8 @@ public class CarrinhoComprasFactory {
      */
 
     public BigDecimal getValorTicketMedio() {
-		return new BigDecimal(0);
+		 long quantidade = carrinhos.stream().count();
+		return new BigDecimal(quantidade);
     }
 
 
@@ -106,9 +115,21 @@ public class CarrinhoComprasFactory {
 	private List<Cliente> getClientes() {
 		return clientes;
 	}
+	private boolean temCarrinho(String identificacaoCliente){
+		return clientes.stream().filter(isCliente(identificacaoCliente))
+				.filter(cliente -> cliente.getCarrinho() != null)
+				.map(cliente -> {
+					carrinhos.add(cliente.getCarrinho());
+					return true;
+				});
+	}
 
-	public void setCliente(Cliente cliente) {
-		this.clientes.add(cliente);
+	public void addCliente(Cliente cliente) {
+		if (temCarrinho(cliente.getId())){
+			this.clientes.add(cliente);
+		}else {
+			this.clientes.add(cliente);
+		}
 	}
 	public void setClientes(List<Cliente> clientes){this.clientes.addAll(clientes);}
 }
