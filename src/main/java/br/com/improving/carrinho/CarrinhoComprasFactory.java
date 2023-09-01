@@ -49,10 +49,10 @@ public class CarrinhoComprasFactory {
 		retornaCarrinho = cliente -> {
 			if (cliente.getCarrinho() == null){
 				CarrinhoCompras carrinho = new CarrinhoCompras();
-				carrinhos.add(carrinho);
+				//carrinhos.add(carrinho);
 				return  carrinho;
 			}else {
-				carrinhos.add(cliente.getCarrinho());
+				//carrinhos.add(cliente.getCarrinho());
 				return cliente.getCarrinho();
 			}
 		};
@@ -115,20 +115,10 @@ public class CarrinhoComprasFactory {
 	private List<Cliente> getClientes() {
 		return clientes;
 	}
-	private boolean temCarrinho(String identificacaoCliente){
-		return clientes.stream().filter(isCliente(identificacaoCliente))
-				.filter(cliente -> cliente.getCarrinho() != null)
-				.map(cliente -> {
-					carrinhos.add(cliente.getCarrinho());
-					return true;
-				});
-	}
-
-	public void addCliente(Cliente cliente) {
-		if (temCarrinho(cliente.getId())){
-			this.clientes.add(cliente);
-		}else {
-			this.clientes.add(cliente);
+	public void addCliente(Cliente cliente) throws Exception {
+		clientes.add(cliente);
+		if (cliente.getCarrinho() != null){
+			carrinhos.add(cliente.getCarrinho());
 		}
 	}
 	public void setClientes(List<Cliente> clientes){this.clientes.addAll(clientes);}

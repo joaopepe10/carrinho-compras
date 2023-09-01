@@ -22,9 +22,12 @@ public class Main {
 		Cliente c1 = new Cliente("1", "Joao", "Pires", compras1);
 		cf.addCliente(c1);
 		Cliente c2 = new Cliente("2", "Vitor", "Santos", compras2);
+		Cliente c3 = new Cliente("3", "Arthur", "Santos");
 		cf.addCliente(c2);
+		cf.addCliente(c3);
 
-		System.out.println(cf.criar("2"));
+		//System.out.println(cf.criar("2"));
+		//System.out.println(cf.criar("1"));
 		System.out.println(cf.getValorTicketMedio());
 
 
