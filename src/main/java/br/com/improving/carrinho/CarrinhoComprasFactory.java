@@ -1,13 +1,18 @@
 
 package br.com.improving.carrinho;
 
+import static java.math.RoundingMode.HALF_EVEN;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import org.apache.commons.math3.util.Precision;
 
 import br.com.improving.usuario.Cliente;
 
@@ -95,13 +100,16 @@ public class CarrinhoComprasFactory {
      */
 
     public BigDecimal getValorTicketMedio() throws Exception{
-		BigDecimal total = new BigDecimal(0);
+		if (carrinhos.isEmpty()){
+			throw new Exception("Nao ha carrinhos de compras cadastrados");
+		}
+		BigDecimal total = BigDecimal.valueOf(0);
 		for (CarrinhoCompras c : carrinhos){
 			if (!c.getItens().isEmpty()){
 				total = total.add(c.getValorTotal());
 			}
 		}
-		return total.divide(BigDecimal.valueOf(carrinhos.size()));
+		return total.divide(new BigDecimal(carrinhos.size()), HALF_EVEN);
     }
 
 
