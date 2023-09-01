@@ -16,15 +16,14 @@ public class Main {
 		CarrinhoCompras compras2 = new CarrinhoCompras();
 		compras1.adicionarItem(p1, new BigDecimal(2900), 1);
 		compras2.adicionarItem(p1, new BigDecimal(2900), 1);
-		compras2.adicionarItem(p1, new BigDecimal(2900), 1);
-		compras2.adicionarItem(p2, new BigDecimal(3500), 1);
-		compras2.adicionarItem(p3, new BigDecimal(4400), 1);
+
 		Cliente c1 = new Cliente("1", "Joao", "Pires", compras1);
 		cf.addCliente(c1);
 		Cliente c2 = new Cliente("2", "Vitor", "Santos", compras2);
 		Cliente c3 = new Cliente("3", "Arthur", "Santos");
 		cf.addCliente(c2);
 		cf.addCliente(c3);
+		cf.criar(c3.getId());
 
 		//System.out.println(cf.criar("2"));
 		//System.out.println(cf.criar("1"));

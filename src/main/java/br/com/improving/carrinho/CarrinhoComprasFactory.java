@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -49,7 +50,7 @@ public class CarrinhoComprasFactory {
 		retornaCarrinho = cliente -> {
 			if (cliente.getCarrinho() == null){
 				CarrinhoCompras carrinho = new CarrinhoCompras();
-				//carrinhos.add(carrinho);
+				carrinhos.add(carrinho);
 				return  carrinho;
 			}else {
 				//carrinhos.add(cliente.getCarrinho());
@@ -93,9 +94,14 @@ public class CarrinhoComprasFactory {
      * @return BigDecimal
      */
 
-    public BigDecimal getValorTicketMedio() {
-		 long quantidade = carrinhos.stream().count();
-		return new BigDecimal(quantidade);
+    public BigDecimal getValorTicketMedio() throws Exception{
+		BigDecimal total = new BigDecimal(0);
+		for (CarrinhoCompras c : carrinhos){
+			if (!c.getItens().isEmpty()){
+				total = total.add(c.getValorTotal());
+			}
+		}
+		return total.divide(BigDecimal.valueOf(carrinhos.size()));
     }
 
 
@@ -115,6 +121,11 @@ public class CarrinhoComprasFactory {
 	private List<Cliente> getClientes() {
 		return clientes;
 	}
+
+	public List<CarrinhoCompras> getCarrinhos() {
+		return carrinhos;
+	}
+
 	public void addCliente(Cliente cliente) throws Exception {
 		clientes.add(cliente);
 		if (cliente.getCarrinho() != null){
