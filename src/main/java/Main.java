@@ -14,8 +14,8 @@ public class Main {
 
 		CarrinhoCompras compras1 = new CarrinhoCompras();
 		CarrinhoCompras compras2 = new CarrinhoCompras();
-		compras1.adicionarItem(p1, new BigDecimal(3000), 1);
-		compras2.adicionarItem(p1, new BigDecimal(50), 1);
+		compras1.adicionarItem(p1, BigDecimal.valueOf(1250.23), 1);
+		compras2.adicionarItem(p1, BigDecimal.valueOf(2900.33), 1);
 
 		Cliente c1 = new Cliente("1", "Joao", "Pires", compras1);
 		cf.addCliente(c1);

@@ -109,7 +109,7 @@ public class CarrinhoComprasFactory {
 				total = total.add(c.getValorTotal());
 			}
 		}
-		return total.divide(new BigDecimal(carrinhos.size()), HALF_EVEN);
+		return total.divide(new BigDecimal(carrinhos.size()), HALF_EVEN).setScale(2, HALF_EVEN);
     }
 
 
