@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import br.com.improving.usuario.Cliente;
 
@@ -43,9 +44,9 @@ public class CarrinhoComprasFactory {
 		return buscarCarrinho(identificacaoCliente);
     }
 
-	private CarrinhoCompras buscarCarrinho(String id) throws Exception {
+	private CarrinhoCompras buscarCarrinho(String identificacaoCliente) throws Exception {
 			Optional<CarrinhoCompras> carrinhoCompras = clientes.stream()
-					.filter(cliente -> cliente.getId().equals(id))
+					.filter(temCliente(identificacaoCliente))
 					.map(cliente -> {
 						if (cliente.getCarrinho() == null){
 							CarrinhoCompras carrinho = new CarrinhoCompras();
@@ -59,10 +60,15 @@ public class CarrinhoComprasFactory {
 			return carrinhoCompras.orElseGet(CarrinhoCompras::new);
 	}
 
+	private Predicate<Cliente> temCliente(String identificacaoCliente){
+		Predicate<Cliente> temCliente = cliente -> cliente.getId().equals(identificacaoCliente);
+		return temCliente;
+	}
+
 
 	private boolean isCliente(String identificacaoCliente) throws Exception {
-		boolean existeCliente = getClientes().stream()
-				.anyMatch(cliente -> cliente.getId().equals(identificacaoCliente));
+		boolean existeCliente = clientes.stream()
+				.anyMatch(temCliente(identificacaoCliente));
 		if (!existeCliente){
 			throw new Exception("Identificacao de cliente invalida!");
 		}

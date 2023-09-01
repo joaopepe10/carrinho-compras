@@ -18,7 +18,7 @@ public class Main {
 		cf.setCliente(c1);
 		Cliente c2 = new Cliente("2", "Vitor", "Santos");
 
-		System.out.println(cf.criar("2"));
+		System.out.println(cf.criar("1"));
 
 
 
