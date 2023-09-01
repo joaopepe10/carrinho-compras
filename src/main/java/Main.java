@@ -25,9 +25,11 @@ public class Main {
 		cf.addCliente(c3);
 		cf.criar(c3.getId());
 
-		//System.out.println(cf.criar("2"));
-		//System.out.println(cf.criar("1"));
+		cf.criar("2");
+		cf.criar("1");
 		System.out.println(cf.getValorTicketMedio());
+		System.out.println(cf.invalidar("1"));
+		System.out.println(cf.getCarrinhos());
 
 
 	}

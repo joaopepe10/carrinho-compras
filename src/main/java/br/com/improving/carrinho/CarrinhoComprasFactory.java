@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.apache.commons.math3.util.Precision;
 
@@ -122,7 +124,16 @@ public class CarrinhoComprasFactory {
      * e false caso o cliente não possua um carrinho.
      */
 
-    public boolean invalidar(String identificacaoCliente) {
+    public boolean invalidar(String identificacaoCliente) throws Exception {
+		if (clientes.isEmpty()){
+			throw new Exception("Nao ha nenhum cliente salvo!");
+		}
+		CarrinhoCompras carrinhoCliente = clientes.stream()
+				.filter(temCliente(identificacaoCliente))
+				.map(Cliente::getCarrinho)
+				.findFirst()
+				.orElseThrow(()-> new Exception("Cliente nao encontrado!"));
+		carrinhos.remove(carrinhoCliente);
 		return true;
     }
 
